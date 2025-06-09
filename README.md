@@ -31,5 +31,5 @@ result, err := g.Execute(ctx, initialState)
 ## Installation
 
 ```bash
-go get hal
+go get github.com/alainrk/hal
 ```
