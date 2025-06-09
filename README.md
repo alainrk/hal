@@ -1,4 +1,4 @@
-# HAL - A Graph-Based AI Framework for Go
+# _HAL_ (Hyper Agent Loop)
 
 HAL is a lightweight, efficient graph-based framework for building AI applications in Go.
 
