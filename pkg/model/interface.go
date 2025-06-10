@@ -6,15 +6,15 @@ import (
 
 // Model defines the interface for language models
 type Model interface {
-	// Generate generates a response based on the prompt
-	Generate(ctx context.Context, prompt string, options *GenerateOptions) (*Response, error)
+	// Invoke generates a response based on the prompt
+	Invoke(ctx context.Context, prompt string, options *InvokeOptions) (*Response, error)
 
 	// GetName returns the model name
 	GetName() string
 }
 
-// GenerateOptions contains options for generation
-type GenerateOptions struct {
+// InvokeOptions contains options for generation
+type InvokeOptions struct {
 	Temperature   float32
 	MaxTokens     int
 	TopP          float32

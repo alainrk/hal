@@ -14,15 +14,19 @@ type OpenAIModel struct {
 }
 
 // NewOpenAIModel creates a new OpenAI model
-func NewOpenAIModel(apiKey string, modelName string) *OpenAIModel {
+func NewOpenAIModel(apiKey string, modelName string, baseURL string) *OpenAIModel {
+	config := openai.DefaultConfig(apiKey)
+	if baseURL != "" {
+		config.BaseURL = baseURL
+	}
 	return &OpenAIModel{
-		client:    openai.NewClient(apiKey),
+		client:    openai.NewClientWithConfig(config),
 		modelName: modelName,
 	}
 }
 
-// Generate implements Model.Generate
-func (m *OpenAIModel) Generate(ctx context.Context, prompt string, options *GenerateOptions) (*Response, error) {
+// Invoke implements Model.Invoke
+func (m *OpenAIModel) Invoke(ctx context.Context, prompt string, options *InvokeOptions) (*Response, error) {
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleUser,

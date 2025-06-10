@@ -19,8 +19,8 @@ func NewAnthropicModel(apiKey string, modelName string) *AnthropicModel {
 	}
 }
 
-// Generate implements Model.Generate
-func (m *AnthropicModel) Generate(ctx context.Context, prompt string, options *GenerateOptions) (*Response, error) {
+// Invoke implements Model.Generate
+func (m *AnthropicModel) Invoke(ctx context.Context, prompt string, options *InvokeOptions) (*Response, error) {
 	// TODO: Implement Anthropic API call
 	return &Response{
 		Content: "Anthropic implementation pending",

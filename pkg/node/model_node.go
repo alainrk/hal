@@ -32,7 +32,7 @@ func NewModelNode(name string, config *ModelNodeConfig) *graph.Node {
 		}
 
 		// Generate response
-		response, err := config.Model.Generate(ctx, prompt, &model.GenerateOptions{
+		response, err := config.Model.Invoke(ctx, prompt, &model.InvokeOptions{
 			SystemPrompt: config.SystemPrompt,
 			Temperature:  config.Temperature,
 		})

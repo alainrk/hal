@@ -15,7 +15,7 @@ func simpleChain() {
 	g := graph.NewGraph("simple-chain")
 
 	// Create model (implement your preferred model)
-	llm := model.NewOpenAIModel("your-api-key", "gpt-4")
+	llm := model.NewOpenAIModel("your-api-key", "gpt-4", "")
 
 	// Create nodes
 	summarizeNode := node.NewModelNode("summarize", &node.ModelNodeConfig{
