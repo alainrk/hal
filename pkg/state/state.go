@@ -8,7 +8,7 @@ import (
 // State represents the execution state
 type State struct {
 	mu      sync.RWMutex
-	data    map[string]interface{}
+	data    map[string]any
 	history []StateSnapshot
 }
 
@@ -16,19 +16,19 @@ type State struct {
 type StateSnapshot struct {
 	NodeID    string
 	Timestamp int64
-	Data      map[string]interface{}
+	Data      map[string]any
 }
 
 // NewState creates a new state
 func NewState() *State {
 	return &State{
-		data:    make(map[string]interface{}),
+		data:    make(map[string]any),
 		history: make([]StateSnapshot, 0),
 	}
 }
 
 // Get retrieves a value from state
-func (s *State) Get(key string) (interface{}, bool) {
+func (s *State) Get(key string) (any, bool) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
@@ -37,7 +37,7 @@ func (s *State) Get(key string) (interface{}, bool) {
 }
 
 // Set stores a value in state
-func (s *State) Set(key string, value interface{}) {
+func (s *State) Set(key string, value any) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -45,7 +45,7 @@ func (s *State) Set(key string, value interface{}) {
 }
 
 // Update merges new data into state
-func (s *State) Update(updates map[string]interface{}) {
+func (s *State) Update(updates map[string]any) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

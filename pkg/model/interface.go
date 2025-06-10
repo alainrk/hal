@@ -27,7 +27,7 @@ type Response struct {
 	Content      string
 	TokensUsed   int
 	FinishReason string
-	Metadata     map[string]interface{}
+	Metadata     map[string]any
 }
 
 // Message represents a chat message

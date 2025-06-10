@@ -14,7 +14,7 @@ func NewBuilder(name string) *NodeBuilder {
 	return &NodeBuilder{
 		node: &graph.Node{
 			Name:   name,
-			Config: make(map[string]interface{}),
+			Config: make(map[string]any),
 		},
 	}
 }
@@ -35,7 +35,7 @@ func (b *NodeBuilder) WithRetry(maxAttempts int, backoffMs int) *NodeBuilder {
 }
 
 // WithConfig adds configuration
-func (b *NodeBuilder) WithConfig(key string, value interface{}) *NodeBuilder {
+func (b *NodeBuilder) WithConfig(key string, value any) *NodeBuilder {
 	b.node.Config[key] = value
 	return b
 }

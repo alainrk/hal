@@ -8,7 +8,7 @@ import (
 
 // FunctionNodeConfig contains configuration for a function node
 type FunctionNodeConfig struct {
-	Function  func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error)
+	Function  func(ctx context.Context, input map[string]any) (map[string]any, error)
 	InputKeys []string
 }
 
@@ -16,7 +16,7 @@ type FunctionNodeConfig struct {
 func NewFunctionNode(name string, config *FunctionNodeConfig) *graph.Node {
 	return graph.NewNode(name, graph.NodeTypeFunction, func(ctx context.Context, s *state.State) (*state.State, error) {
 		// Gather inputs
-		inputs := make(map[string]interface{})
+		inputs := make(map[string]any)
 		for _, key := range config.InputKeys {
 			if val, exists := s.Get(key); exists {
 				inputs[key] = val

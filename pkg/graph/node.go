@@ -16,7 +16,7 @@ type Node struct {
 	Name        string
 	Type        NodeType
 	Execute     NodeFunc
-	Config      map[string]interface{}
+	Config      map[string]any
 	RetryPolicy *RetryPolicy
 }
 
@@ -44,6 +44,6 @@ func NewNode(name string, nodeType NodeType, fn NodeFunc) *Node {
 		Name:    name,
 		Type:    nodeType,
 		Execute: fn,
-		Config:  make(map[string]interface{}),
+		Config:  make(map[string]any),
 	}
 }

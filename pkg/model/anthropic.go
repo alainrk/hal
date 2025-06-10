@@ -24,7 +24,7 @@ func (m *AnthropicModel) Generate(ctx context.Context, prompt string, options *G
 	// TODO: Implement Anthropic API call
 	return &Response{
 		Content: "Anthropic implementation pending",
-		Metadata: map[string]interface{}{
+		Metadata: map[string]any{
 			"model": m.modelName,
 		},
 	}, nil

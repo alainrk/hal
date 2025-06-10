@@ -61,7 +61,7 @@ func (m *OpenAIModel) Generate(ctx context.Context, prompt string, options *Gene
 		Content:      resp.Choices[0].Message.Content,
 		TokensUsed:   resp.Usage.TotalTokens,
 		FinishReason: string(resp.Choices[0].FinishReason),
-		Metadata: map[string]interface{}{
+		Metadata: map[string]any{
 			"model": m.modelName,
 			"id":    resp.ID,
 		},

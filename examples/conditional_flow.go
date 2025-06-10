@@ -15,7 +15,7 @@ func conditionalFlow() {
 
 	// Create nodes
 	classifyNode := node.NewFunctionNode("classify", &node.FunctionNodeConfig{
-		Function: func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error) {
+		Function: func(ctx context.Context, input map[string]any) (map[string]any, error) {
 			text := input["text"].(string)
 
 			// Simple classification logic
@@ -26,7 +26,7 @@ func conditionalFlow() {
 				category = "short"
 			}
 
-			return map[string]interface{}{
+			return map[string]any{
 				"category": category,
 			}, nil
 		},
@@ -34,8 +34,8 @@ func conditionalFlow() {
 	})
 
 	longHandler := node.NewFunctionNode("long-handler", &node.FunctionNodeConfig{
-		Function: func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error) {
-			return map[string]interface{}{
+		Function: func(ctx context.Context, input map[string]any) (map[string]any, error) {
+			return map[string]any{
 				"result": "Processed long text",
 			}, nil
 		},
@@ -43,8 +43,8 @@ func conditionalFlow() {
 	})
 
 	shortHandler := node.NewFunctionNode("short-handler", &node.FunctionNodeConfig{
-		Function: func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error) {
-			return map[string]interface{}{
+		Function: func(ctx context.Context, input map[string]any) (map[string]any, error) {
+			return map[string]any{
 				"result": "Processed short text",
 			}, nil
 		},

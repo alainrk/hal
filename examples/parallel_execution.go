@@ -15,8 +15,8 @@ func parallelFlow() {
 
 	// Create a fan-out node that triggers parallel execution
 	fanOutNode := node.NewFunctionNode("fan-out", &node.FunctionNodeConfig{
-		Function: func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error) {
-			return map[string]interface{}{
+		Function: func(ctx context.Context, input map[string]any) (map[string]any, error) {
+			return map[string]any{
 				"ready": true,
 			}, nil
 		},
@@ -30,7 +30,7 @@ func parallelFlow() {
 
 	// Create a fan-in node to collect results
 	fanInNode := node.NewFunctionNode("fan-in", &node.FunctionNodeConfig{
-		Function: func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error) {
+		Function: func(ctx context.Context, input map[string]any) (map[string]any, error) {
 			var total int
 			if v1, ok := input["result-1"]; ok {
 				total += v1.(int)
@@ -42,7 +42,7 @@ func parallelFlow() {
 				total += v3.(int)
 			}
 
-			return map[string]interface{}{
+			return map[string]any{
 				"total": total,
 			}, nil
 		},
@@ -83,9 +83,9 @@ func parallelFlow() {
 
 func createProcessor(name string, value int) *graph.Node {
 	return node.NewFunctionNode(name, &node.FunctionNodeConfig{
-		Function: func(ctx context.Context, input map[string]interface{}) (map[string]interface{}, error) {
+		Function: func(ctx context.Context, input map[string]any) (map[string]any, error) {
 			// Simulate some work
-			return map[string]interface{}{
+			return map[string]any{
 				fmt.Sprintf("result-%d", value): value * 10,
 			}, nil
 		},
