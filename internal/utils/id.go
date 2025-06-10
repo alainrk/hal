@@ -8,9 +8,3 @@ import (
 func GenerateID() string {
 	return uuid.New().String()
 }
-
-// GenerateShortID generates a shorter unique ID
-func GenerateShortID() string {
-	id := uuid.New()
-	return id.String()[:8]
-}
