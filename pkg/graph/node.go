@@ -2,48 +2,40 @@ package graph
 
 import (
 	"context"
-	"hal/pkg/state"
-
-	"github.com/google/uuid"
 )
 
-// NodeFunc is the function signature for node execution
-type NodeFunc func(ctx context.Context, state *state.State) (*state.State, error)
-
-// Node represents a node in the graph
-type Node struct {
-	ID          string
-	Name        string
-	Type        NodeType
-	Execute     NodeFunc
-	Config      map[string]any
-	RetryPolicy *RetryPolicy
+// Runnable is the fundamental unit of work in the graph.
+// It is a generic interface that operates on any user-defined state type 'S'.
+type Runnable[S any] interface {
+	// Invoke executes the node's logic. It receives the current state
+	// and returns the potentially modified state.
+	Invoke(ctx context.Context, state S) (S, error)
 }
 
-// NodeType represents the type of node
-type NodeType string
+// SimpleNode is the simplest node we give to the user.
+// It just implements the Runnable interface.
+type SimpleNode[S any] func(ctx context.Context, state S) (S, error)
 
-const (
-	NodeTypeModel    NodeType = "model"
-	NodeTypeFunction NodeType = "function"
-	NodeTypeRouter   NodeType = "router"
-	NodeTypeStart    NodeType = "start"
-	NodeTypeEnd      NodeType = "end"
-)
-
-// RetryPolicy defines retry behavior for a node
-type RetryPolicy struct {
-	MaxAttempts int
-	BackoffMs   int
-}
-
-// NewNode creates a new node
-func NewNode(name string, nodeType NodeType, fn NodeFunc) *Node {
-	return &Node{
-		ID:      uuid.New().String(),
-		Name:    name,
-		Type:    nodeType,
-		Execute: fn,
-		Config:  make(map[string]any),
-	}
+// Invoke simply calls the underlying function, without doing anything else, satisfying the Runnable interface.
+//
+// Example:
+//
+//	type AgentState struct {
+//		Messages []hal.ChatMessage
+//	}
+//
+//	func callModelNode(ctx context.Context, state AgentState) (AgentState, error) {
+//		// ... implementation
+//		return state, nil
+//	}
+//
+//	modelNode := hal.SimpleNode[AgentState](callModelNode)
+//
+//	initialState := AgentState{
+//		Messages: []hal.ChatMessage{Role: "user", Content: "Hello, world!"},
+//	}
+//
+//	finalState, err := modelNode.Invoke(context.Background(), initialState)
+func (f SimpleNode[S]) Invoke(ctx context.Context, state S) (S, error) {
+	return f(ctx, state)
 }
