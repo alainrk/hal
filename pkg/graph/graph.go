@@ -3,6 +3,7 @@ package graph
 import (
 	"context"
 	"fmt"
+	"hal/internal/utils"
 	"log"
 
 	"golang.org/x/sync/errgroup"
@@ -111,6 +112,7 @@ func (g *Graph[S]) Invoke(ctx context.Context, initialState S) (S, error) {
 		// --- MERGE RESULTS ---
 		var statesToMerge []S
 		var allNextNodes []string
+
 		for res := range resultsChan {
 			statesToMerge = append(statesToMerge, res.newState)
 			allNextNodes = append(allNextNodes, res.nextNodes...)
@@ -131,6 +133,7 @@ func (g *Graph[S]) Invoke(ctx context.Context, initialState S) (S, error) {
 					len(statesToMerge),
 				)
 			}
+
 			var err error
 			currentState, err = g.stateMerger.Merge(ctx, statesToMerge...)
 			if err != nil {
@@ -139,21 +142,8 @@ func (g *Graph[S]) Invoke(ctx context.Context, initialState S) (S, error) {
 		}
 
 		// Prepare for the next step.
-		stepNodes = unique(allNextNodes) // unique() is a helper to remove duplicates
+		stepNodes = utils.Unique(allNextNodes)
 	}
 
 	return currentState, nil
-}
-
-// unique is a simple helper function to remove duplicate strings from a slice.
-func unique(s []string) []string {
-	inResult := make(map[string]struct{})
-	var result []string
-	for _, str := range s {
-		if _, ok := inResult[str]; !ok {
-			inResult[str] = struct{}{}
-			result = append(result, str)
-		}
-	}
-	return result
 }
